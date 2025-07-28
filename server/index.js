@@ -6,16 +6,17 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import todoRoutes from './routes/todoRoutes.js';
-app.use('/api/todos', todoRoutes);
 
 dotenv.config();
-const app = express();
+
+const app = express(); // ✅ Declare app first
 
 app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/todos', todoRoutes); 
 
 mongoose
   .connect(process.env.MONGO_URL)
