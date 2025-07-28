@@ -1,30 +1,27 @@
-// index.js
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
-dotenv.config();
+// Use a custom object to hold .env values
+const myEnv = {};
+dotenv.config({ processEnv: myEnv });
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = myEnv.PORT || 5000;
 
-// Middlewares
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connect
-mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => {
+// Connect to MongoDB
+mongoose.connect(myEnv.MONGO_URL)
+  .then(() => {
     console.log('✅ MongoDB connected');
-    // Start server only after DB is connected
     app.listen(PORT, () => {
-        console.log(`🚀 Server running on http://localhost:${PORT}`);
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
-})
-.catch((error) => {
+  })
+  .catch((error) => {
     console.error('❌ MongoDB connection error:', error);
-});
+  });
