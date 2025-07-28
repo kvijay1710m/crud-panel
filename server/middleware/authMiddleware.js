@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 export const protect = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  const token = req.headers.authorization?.split(' ')[1];// Bearer token
   if (!token) return res.status(401).json({ message: 'Not authorized, no token' });
 
   try {
@@ -13,7 +13,7 @@ export const protect = (req, res, next) => {
   }
 };
 
-export const isAdmin = (req, res, next) => {
+export const adminOnly  = (req, res, next) => {//adminOnly
   if (req.user?.role !== 'admin') {
     return res.status(403).json({ message: 'Access denied' });
   }

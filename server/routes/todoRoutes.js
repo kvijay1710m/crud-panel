@@ -1,17 +1,12 @@
-// routes/todoRoutes.js
 import express from 'express';
-import {
-  createTodo,
-  getTodos,
-  updateTodo,
-  deleteTodo
-} from '../controllers/todoController.js';
+import { protect } from '../middleware/authMiddleware.js';
+import { createTodo, getTodos, updateTodo, deleteTodo } from '../controllers/todoController.js';
 
 const router = express.Router();
 
-router.post('/', createTodo);
-router.get('/', getTodos);
-router.put('/:id', updateTodo);
-router.delete('/:id', deleteTodo);
+router.post('/', protect, createTodo);     // only logged-in users can create
+router.get('/', protect, getTodos);        // only logged-in users can view
+router.put('/:id', protect, updateTodo);   // only logged-in users can update
+router.delete('/:id', protect, deleteTodo);// only logged-in users can delete
 
 export default router;
